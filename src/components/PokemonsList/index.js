@@ -1,26 +1,38 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import Pokemon from '../Pokemon'
+import { FETCH_STATES } from '../../constants/constants'
+import Spinner from '../Spinner'
 
 const PokemonsList = ({ searchValue }) => {
   const [pokemons, setPokemons] = useState([])
+  const [fetchState, setFetchState] = useState(FETCH_STATES.IDLE)
 
   const getPokemons = useCallback(() => {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=5').then(response => response.json()).then(data => {
-      setPokemons(data.results)
-    })
+    setFetchState(FETCH_STATES.PENDING)
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=50')
+      .then(response => response.json())
+      .then(data => {
+        setFetchState(FETCH_STATES.SUCCESS)
+        setPokemons(data.results)
+      })
   }, [setPokemons])
 
   useEffect(() => {
     getPokemons()
   }, [getPokemons])
 
-  return (
+  return fetchState === FETCH_STATES.PENDING ? (
+    <Spinner />
+  ) : (
     <div className="pokemons-list">
-      {
-        pokemons.map(pokemon => (
-          <Pokemon name={pokemon.name} id={pokemon.id} searchValue={searchValue} key={pokemon.name}/>
-        ))
-      }
+      {pokemons.map(pokemon => (
+        <Pokemon
+          name={pokemon.name}
+          id={pokemon.id}
+          searchValue={searchValue}
+          key={pokemon.name}
+        />
+      ))}
     </div>
   )
 }
