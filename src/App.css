@@ -1,0 +1,173 @@
+html body {
+  background: #263238;
+}
+
+.App {
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+.input {
+  padding: 16px;
+  font-size: 30px;
+  width: 80%;
+  display: block;
+  margin: 60px auto;
+}
+
+h1 {
+  color: #fcd93b;
+  font-size: 87px;
+  margin: 60px;
+}
+
+.pokemon-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.name {
+  font-size: 30px;
+  padding: 20px 0;
+  /*width: 50%;*/
+  float: left;
+  color: #e6b89c;
+}
+
+.highlight {
+  color: #000000;
+  background: #e6b89c;
+  padding: 5px;
+}
+
+.pokemon-page {
+  padding: 25px 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "header header header"
+                       "image details evolutions";
+  color: #e6b89c;
+}
+
+.pokemon-page h1 {
+  color: #e6b89c;
+  font-size: 60px;
+  margin: 20px 0;
+}
+
+.pokemon-page .pokemon-color {
+  height: 30px;
+  width: 30px;
+}
+
+.pokemon-page .pokemon-name{
+  grid-area: header;
+}
+
+.pokemon-page .pokemon-name:first-letter{
+  text-transform: uppercase;
+}
+
+.pokemon-page h5{
+  text-align: left;
+  margin: 2px 0;
+}
+
+.pokemon-page ul {
+  padding-inline-start: 0;
+  margin: 8px 0;
+}
+
+.pokemon-page .moves-list li{
+  text-align: left;
+}
+
+.pokemon-page .pokemon-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-area: image;
+}
+
+.pokemon-page .pokemon-image img {
+  max-width: 200px;
+}
+
+.pokemon-page ul {
+  list-style-type: none;
+}
+
+.pokemon-page .pokemon-details{
+  grid-area: details;
+}
+
+.pokemon-page .pokemon-evolutions{
+  grid-area: evolutions;
+}
+
+.pokemons-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.pokemons-list a {
+  text-decoration: none;
+}
+
+.marketing {
+  background: linear-gradient(transparent 0%, black 80%);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 10vh;
+  text-align: left;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 50px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.marketing > span {
+  font-size: 4rem;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.fps {
+  zoom: 2;
+  position: relative;
+  width: 120px;
+  height: 40px;
+}
+
+.min-fps {
+  position: absolute;
+  color: white;
+  font-size: 18px;
+  right: 110px;
+  bottom: 12px;
+}
