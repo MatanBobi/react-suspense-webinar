@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useMemo, useReducer } from 'react'
 import { FETCH_STATES } from '../../constants/constants'
 import Spinner from '../Spinner'
+import PokemonDetails from '../PokemonDetails'
+import PokemonColor from '../PokemonColor'
+import PokemonEvolutions from '../PokemonEvolutions'
 
 export const getPokemonChain = (acc, data) => {
   acc.push({
@@ -88,63 +91,15 @@ const PokemonPage = ({
 
   return (
     <div className="pokemon-page">
-      <h1 className="pokemon-name">{pokemonData.name}</h1>
-      <div className="pokemon-image">
-        <h3>Image</h3>
-        {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? (
-          <Spinner />
-        ) : (
-            // https://serebii.net/pokemon/art/001.png
-          <img
-            src={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`}
-            alt=""
-          />
-        )}
-      </div>
-      <div className="pokemon-details">
-        <h3>Details</h3>
-        {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? (
-          <Spinner />
-        ) : (
-          <>
-            <h5>Top 10 Moves:</h5>
-            <ul className="moves-list">
-              {pokemonData.data &&
-                pokemonData.data.moves &&
-                pokemonData.data.moves.slice(0, 10).map(({ move }) => {
-                  return <li key={move.name}>{move.name}</li>
-                })}
-            </ul>
-            <h5>Color: </h5>
-            {pokemonSpecies.fetchState !== FETCH_STATES.SUCCESS ? (
-              <Spinner />
-            ) : (
-              <div
-                className="pokemon-color"
-                style={{ backgroundColor: pokemonColor }}
-              />
-            )}
-          </>
-        )}
-      </div>
-      <div className="pokemon-evolutions">
-        <h3>Evolutions</h3>
-        {pokemonEvolutions.fetchState !== FETCH_STATES.SUCCESS ? (
-          <Spinner />
-        ) : (
-          <ul>
-            {pokemonChain &&
-              pokemonChain.map(pokemon => (
-                <li key={pokemon.name}>
-                  <img
-                    src={`https://img.pokemondb.net/sprites/x-y/normal/${pokemon.name}.png`}
-                    alt={pokemon.name}
-                  />
-                </li>
-              ))}
-          </ul>
-        )}
-      </div>
+    {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
+      <PokemonDetails pokemonData={pokemonData.data} id={id} />
+    }
+    {pokemonSpecies.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
+      <PokemonColor color={pokemonColor} />
+    }
+    {pokemonEvolutions.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
+      <PokemonEvolutions pokemonChain={pokemonChain} />
+    }
     </div>
   )
 }
