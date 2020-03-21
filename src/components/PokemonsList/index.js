@@ -1,40 +1,33 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { Suspense } from 'react'
 import Pokemon from '../Pokemon'
-import { FETCH_STATES } from '../../constants/constants'
 import Spinner from '../Spinner'
+import { createResource } from '../../helpers/utils'
 
-const PokemonsList = ({ searchValue }) => {
-  const [pokemons, setPokemons] = useState([])
-  const [fetchState, setFetchState] = useState(FETCH_STATES.IDLE)
+const pokemonsResource = createResource(() =>
+  fetch('https://pokeapi.co/api/v2/pokemon?limit=5')
+)
 
-  const getPokemons = useCallback(() => {
-    setFetchState(FETCH_STATES.PENDING)
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=50')
-      .then(response => response.json())
-      .then(data => {
-        setFetchState(FETCH_STATES.SUCCESS)
-        setPokemons(data.results)
-      })
-  }, [setPokemons])
+const PokemonsList = () => {
+  const pokemons = pokemonsResource.read()
 
-  useEffect(() => {
-    getPokemons()
-  }, [getPokemons])
-
-  return fetchState === FETCH_STATES.PENDING ? (
-    <Spinner />
-  ) : (
+  return (
     <div className="pokemons-list">
-      {pokemons.map(pokemon => (
-        <Pokemon
-          name={pokemon.name}
-          id={pokemon.id}
-          searchValue={searchValue}
-          key={pokemon.name}
-        />
-      ))}
+      {pokemons.results.map(pokemon => {
+        return (
+          <Suspense fallback={<Spinner />} key={pokemon.name}>
+            <Pokemon
+              pokemonResource={createResource(() =>
+                fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
+              )}
+              name={pokemon.name}
+              id={pokemon.id}
+              key={pokemon.name}
+            />
+          </Suspense>
+        )
+      })}
     </div>
   )
 }
 
-export default memo(PokemonsList)
+export default PokemonsList

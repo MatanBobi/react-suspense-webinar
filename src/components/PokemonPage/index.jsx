@@ -57,6 +57,7 @@ const PokemonPage = ({
   const [pokemonColor, setPokemonColor] = useState()
 
   useEffect(() => {
+      if (!evolutionChainUrl){ return; }
     pokemonEvolutionDispatch({ type: FETCH_STATES.PENDING })
     fetch(evolutionChainUrl)
       .then(response => response.json())
@@ -94,6 +95,7 @@ const PokemonPage = ({
         {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? (
           <Spinner />
         ) : (
+            // https://img.pokemondb.net/artwork/charizard.jpg
             // https://serebii.net/pokemon/art/001.png
           <img
             src={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`}
