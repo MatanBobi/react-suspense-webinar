@@ -94,6 +94,7 @@ const PokemonPage = ({
         {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? (
           <Spinner />
         ) : (
+            // https://serebii.net/pokemon/art/001.png
           <img
             src={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`}
             alt=""
