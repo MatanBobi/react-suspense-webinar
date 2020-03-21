@@ -1,4 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
+import PokemonDetails from '../PokemonDetails'
+import PokemonColor from '../PokemonColor'
+import PokemonEvolutions from '../PokemonEvolutions'
 
 export const getPokemonChain = (acc, data) => {
   acc.push({
@@ -49,42 +52,9 @@ const PokemonPage = ({
 
   return (
     <div className="pokemon-page">
-      <h1 className="pokemon-name">{pokemonData.name}</h1>
-      <div className="pokemon-image">
-        {pokemonData.sprites && (
-          <img
-            src={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`}
-            alt=""
-          />
-        )}
-      </div>
-      <div className="pokemon-details">
-        <h3>Details</h3>
-        <h5>Top 10 Moves:</h5>
-        <ul className="moves-list">
-          {pokemonData &&
-            pokemonData.moves &&
-            pokemonData.moves.slice(0, 10).map(({ move }) => {
-              return <li key={move.name}>{move.name}</li>
-            })}
-        </ul>
-        <h5>Color: </h5>
-        <div className="pokemon-color" style={{backgroundColor: pokemonColor}}/>
-      </div>
-      <div className="pokemon-evolutions">
-        <h3>Evolutions</h3>
-        <ul>
-          {pokemonChain &&
-            pokemonChain.map(pokemon => (
-              <li key={pokemon.name}>
-                <img
-                  src={`https://img.pokemondb.net/sprites/x-y/normal/${pokemon.name}.png`}
-                  alt={pokemon.name}
-                />
-              </li>
-            ))}
-        </ul>
-      </div>
+      <PokemonDetails pokemonData={pokemonData} id={id} />
+      <PokemonColor color={pokemonColor} />
+      <PokemonEvolutions pokemonChain={pokemonChain} />
     </div>
   )
 }

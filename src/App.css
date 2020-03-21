@@ -64,8 +64,10 @@ h1 {
   padding: 25px 50px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-areas: "header header header"
-                       "image details evolutions";
+  grid-template-areas:
+    'header header header'
+    'image details evolutions'
+    'image color evolutions';
   color: #e6b89c;
 }
 
@@ -75,20 +77,20 @@ h1 {
   margin: 20px 0;
 }
 
-.pokemon-page .pokemon-color {
+.pokemon-page .pokemon-color-box {
   height: 30px;
   width: 30px;
 }
 
-.pokemon-page .pokemon-name{
+.pokemon-page .pokemon-name {
   grid-area: header;
 }
 
-.pokemon-page .pokemon-name:first-letter{
+.pokemon-page .pokemon-name:first-letter {
   text-transform: uppercase;
 }
 
-.pokemon-page h5{
+.pokemon-page h5 {
   text-align: left;
   margin: 2px 0;
 }
@@ -98,7 +100,7 @@ h1 {
   margin: 8px 0;
 }
 
-.pokemon-page .moves-list li{
+.pokemon-page .moves-list li {
   text-align: left;
 }
 
@@ -117,11 +119,15 @@ h1 {
   list-style-type: none;
 }
 
-.pokemon-page .pokemon-details{
+.pokemon-page .pokemon-details {
   grid-area: details;
 }
 
-.pokemon-page .pokemon-evolutions{
+.pokemon-page .pokemon-color {
+  grid-area: color;
+}
+
+.pokemon-page .pokemon-evolutions {
   grid-area: evolutions;
 }
 
