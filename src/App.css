@@ -131,6 +131,11 @@ h1 {
   grid-area: evolutions;
 }
 
+.pokemon-page .pokemon-evolutions img{
+  height: 150px;
+  margin: 8px 0;
+}
+
 .pokemons-list {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
