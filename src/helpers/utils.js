@@ -32,3 +32,11 @@ export const createResource = fetchFunction => {
 export const getPokemonIdFromUrl = currentPath => {
   return currentPath.split('/pokemon/')[1]
 }
+
+export const preloadImage = src => {
+  return new Promise(resolve => {
+    const img = document.createElement('img')
+    img.src = src
+    img.onload = () => resolve(src)
+  })
+}
