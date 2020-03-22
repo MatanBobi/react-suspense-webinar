@@ -45,7 +45,7 @@ const PokemonEvolutions = ({
           pokemonChain.map(pokemon => (
             <li key={pokemon.name}>
               <img
-                src={`https://img.pokemondb.net/sprites/x-y/normal/${pokemon.name}.png`}
+                src={`https://img.pokemondb.net/artwork/vector/${pokemon.name}.png`}
                 alt={pokemon.name}
               />
             </li>
