@@ -1,106 +1,56 @@
-import React, { useEffect, useState, useMemo, useReducer } from 'react'
+import React, {
+  useEffect,
+  useState,
+  useReducer,
+  lazy,
+  Suspense,
+  SuspenseList
+} from 'react'
 import { FETCH_STATES } from '../../constants/constants'
 import Spinner from '../Spinner'
-import PokemonDetails from '../PokemonDetails'
-import PokemonColor from '../PokemonColor'
-import PokemonEvolutions from '../PokemonEvolutions'
+import { createResource, getPokemonIdFromUrl } from '../../helpers/utils'
 
-export const getPokemonChain = (acc, data) => {
-  acc.push({
-    name: data.species.name,
-  })
-  if (data.evolves_to.length === 0) {
-    return acc
-  } else {
-    return data.evolves_to.reduce(getPokemonChain, acc)
-  }
-}
+const PokemonDetails = lazy(() => import('../PokemonDetails'))
+const PokemonColor = lazy(() => import('../PokemonColor'))
+const PokemonEvolutions = lazy(() => import('../PokemonEvolutions'))
 
-const dataReducer = (state, action) => {
-  switch (action.type) {
-    case FETCH_STATES.PENDING: {
-      return {
-        ...state,
-        fetchState: FETCH_STATES.PENDING,
-      }
-    }
-    case FETCH_STATES.SUCCESS: {
-      return {
-        data: action.payload,
-        fetchState: FETCH_STATES.SUCCESS,
-      }
-    }
-    default:
-      return state
-  }
-}
+const pokemonResource = createResource(() =>
+  fetch(
+    `https://pokeapi.co/api/v2/pokemon/${getPokemonIdFromUrl(
+      window.location.pathname
+    )}`
+  )
+)
 
 const PokemonPage = ({
   match: {
     params: { id },
   },
 }) => {
-  const [pokemonEvolutions, pokemonEvolutionDispatch] = useReducer(
-    dataReducer,
-    {
-      data: {},
-      fetchState: FETCH_STATES.IDLE,
-    }
-  )
-  const [pokemonData, pokemonDataDispatch] = useReducer(dataReducer, {
-    data: {},
-    fetchState: FETCH_STATES.IDLE,
-  })
-  const [pokemonSpecies, pokemonSpeciesDispatch] = useReducer(dataReducer, {
-    data: {},
-    fetchState: FETCH_STATES.IDLE,
-  })
-
-  const [evolutionChainUrl, setEvolutionChainUrl] = useState()
-  const [pokemonColor, setPokemonColor] = useState()
-
-  useEffect(() => {
-      if (!evolutionChainUrl){ return; }
-    pokemonEvolutionDispatch({ type: FETCH_STATES.PENDING })
-    fetch(evolutionChainUrl)
-      .then(response => response.json())
-      .then(data => {
-        pokemonEvolutionDispatch({ type: FETCH_STATES.SUCCESS, payload: data })
-      })
-  }, [evolutionChainUrl])
-  useEffect(() => {
-    pokemonDataDispatch({ type: FETCH_STATES.PENDING })
-    fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-      .then(response => response.json())
-      .then(data => {
-        pokemonDataDispatch({ type: FETCH_STATES.SUCCESS, payload: data })
-        pokemonSpeciesDispatch({ type: FETCH_STATES.PENDING })
-        fetch(data.species.url)
-          .then(response => response.json())
-          .then(data => {
-            pokemonSpeciesDispatch({ type: FETCH_STATES.SUCCESS })
-            setEvolutionChainUrl(data.evolution_chain.url)
-            setPokemonColor(data.color.name)
-          })
-      })
-  }, [id])
-  const pokemonChain = useMemo(() => {
-    if (pokemonEvolutions.data && pokemonEvolutions.data.chain) {
-      return getPokemonChain([], pokemonEvolutions.data.chain.evolves_to[0])
-    }
-  }, [pokemonEvolutions.data])
+  const [pokemonSpeciesResource, setPokemonSpeciesResource] = useState(null)
+  const [evolutionChainResource, setEvolutionChainResource] = useState(null)
 
   return (
     <div className="pokemon-page">
-    {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
-      <PokemonDetails pokemonData={pokemonData.data} id={id} />
-    }
-    {pokemonSpecies.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
-      <PokemonColor color={pokemonColor} />
-    }
-    {pokemonEvolutions.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
-      <PokemonEvolutions pokemonChain={pokemonChain} />
-    }
+      <SuspenseList revealOrder="together" tail="collapsed">
+        <Suspense fallback={<Spinner />}>
+          <PokemonDetails pokemonResource={pokemonResource} id={id} />
+        </Suspense>
+        <Suspense fallback={<Spinner />}>
+          <PokemonColor
+            pokemonResource={pokemonResource}
+            pokemonSpeciesResource={pokemonSpeciesResource}
+            setPokemonSpeciesResource={setPokemonSpeciesResource}
+          />
+        </Suspense>
+        <Suspense fallback={<Spinner />}>
+          <PokemonEvolutions
+            pokemonSpeciesResource={pokemonSpeciesResource}
+            evolutionChainResource={evolutionChainResource}
+            setEvolutionChainResource={setEvolutionChainResource}
+          />
+        </Suspense>
+      </SuspenseList>
     </div>
   )
 }
