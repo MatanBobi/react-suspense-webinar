@@ -1,12 +1,9 @@
 import React, {
-  useEffect,
   useState,
-  useReducer,
   lazy,
   Suspense,
   SuspenseList
 } from 'react'
-import { FETCH_STATES } from '../../constants/constants'
 import Spinner from '../Spinner'
 import { createResource, getPokemonIdFromUrl } from '../../helpers/utils'
 

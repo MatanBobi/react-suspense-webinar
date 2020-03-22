@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { createResource } from '../../helpers/utils'
 
 const getPokemonChain = (acc, data) => {

@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import Spinner from '../Spinner'
-import { FETCH_STATES } from '../../constants/constants'
 
 const Pokemon = ({ pokemonResource, name }) => {
   const pokemonData = pokemonResource.read()
