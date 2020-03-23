@@ -5,7 +5,7 @@ const PokemonsList = ({ searchValue }) => {
   const [pokemons, setPokemons] = useState([])
 
   const getPokemons = useCallback(() => {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=5').then(response => response.json()).then(data => {
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=50').then(response => response.json()).then(data => {
       setPokemons(data.results)
     })
   }, [setPokemons])
