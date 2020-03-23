@@ -14,16 +14,25 @@ const PokemonDetails = ({ pokemonResource, pokemonColor, id }) => {
         )}
       </div>
       <div className="pokemon-details">
-        <h3>Details</h3>
-        <h5>Top 10 Moves:</h5>
-        <ul className="moves-list">
-          {pokemonData &&
-            pokemonData.moves &&
-            pokemonData.moves.slice(0, 10).map(({ move }) => {
-              return <li key={move.name}>{move.name}</li>
-            })}
-        </ul>
-      </div>
+      <h3>Details</h3>
+      <h5>Stats:</h5>
+      <ul className="moves-list">
+        {pokemonData &&
+          pokemonData.stats &&
+          pokemonData.stats.map(stat => {
+            return <li key={stat.stat.name}>{`${stat.stat.name}: ${stat.base_stat}`}</li>
+          })}
+      </ul>
+      <h5>Types:</h5>
+      <ul className="types-list"
+      >
+        {pokemonData &&
+          pokemonData.types &&
+          pokemonData.types.map(({type}) => {
+          return <li key={type.name}>{type.name}</li>
+          })}
+      </ul>
+    </div>
     </>
   )
 }
