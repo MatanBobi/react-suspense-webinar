@@ -5,27 +5,20 @@ import React, {
   SuspenseList
 } from 'react'
 import Spinner from '../Spinner'
-import { createResource, getPokemonIdFromUrl } from '../../helpers/utils'
 
 const PokemonDetails = lazy(() => import('../PokemonDetails'))
 const PokemonColor = lazy(() => import('../PokemonColor'))
 const PokemonEvolutions = lazy(() => import('../PokemonEvolutions'))
 
-const pokemonResource = createResource(() =>
-  fetch(
-    `https://pokeapi.co/api/v2/pokemon/${getPokemonIdFromUrl(
-      window.location.pathname
-    )}`
-  )
-)
-
 const PokemonPage = ({
   match: {
     params: { id },
-  },
+  }, pokemonResource,
 }) => {
   const [evolutionChainResource, setEvolutionChainResource] = useState(null)
-
+  if (!pokemonResource){
+    return null
+  }
   return (
     <div className="pokemon-page">
       <SuspenseList revealOrder="forwards" tail="collapsed">
