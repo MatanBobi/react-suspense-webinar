@@ -53,7 +53,7 @@ const PokemonPage = ({
   return (
     <div className="pokemon-page">
       <PokemonDetails pokemonData={pokemonData} id={id} />
-      <PokemonColor color={pokemonColor} />
+      <PokemonColor types={pokemonData.types} />
       <PokemonEvolutions pokemonChain={pokemonChain} />
     </div>
   )
