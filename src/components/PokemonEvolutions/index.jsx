@@ -13,29 +13,31 @@ const getPokemonChain = (acc, data) => {
 }
 
 const PokemonEvolutions = ({
-  pokemonSpeciesResource,
+  pokemonResource,
   evolutionChainResource,
   setEvolutionChainResource,
 }) => {
   let evolutionChainData = {}
   let pokemonChain
-  if (!pokemonSpeciesResource) {
+  if (!pokemonResource) {
     return null
   }
-  const pokemonSpeciesData = pokemonSpeciesResource.read()
   if (!evolutionChainResource) {
     setEvolutionChainResource(
-      createResource(() => fetch(pokemonSpeciesData.evolution_chain.url))
+      createResource(() =>
+        fetch(pokemonResource.read().species.url)
+          .then(data => data.json())
+          .then(pokemonSpeciesData =>
+            fetch(pokemonSpeciesData.evolution_chain.url)
+          )
+      )
     )
 
     return null
   }
   evolutionChainData = evolutionChainResource.read()
   if (evolutionChainData && evolutionChainData.chain) {
-    pokemonChain = getPokemonChain(
-      [],
-      evolutionChainData.chain.evolves_to[0]
-    )
+    pokemonChain = getPokemonChain([], evolutionChainData.chain.evolves_to[0])
   }
   return (
     <div className="pokemon-evolutions">

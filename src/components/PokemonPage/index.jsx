@@ -24,25 +24,22 @@ const PokemonPage = ({
     params: { id },
   },
 }) => {
-  const [pokemonSpeciesResource, setPokemonSpeciesResource] = useState(null)
   const [evolutionChainResource, setEvolutionChainResource] = useState(null)
 
   return (
     <div className="pokemon-page">
-      <SuspenseList revealOrder="together" tail="collapsed">
+      <SuspenseList revealOrder="forwards" tail="collapsed">
         <Suspense fallback={<Spinner />}>
           <PokemonDetails pokemonResource={pokemonResource} id={id} />
         </Suspense>
         <Suspense fallback={<Spinner />}>
           <PokemonColor
             pokemonResource={pokemonResource}
-            pokemonSpeciesResource={pokemonSpeciesResource}
-            setPokemonSpeciesResource={setPokemonSpeciesResource}
           />
         </Suspense>
         <Suspense fallback={<Spinner />}>
           <PokemonEvolutions
-            pokemonSpeciesResource={pokemonSpeciesResource}
+            pokemonResource={pokemonResource}
             evolutionChainResource={evolutionChainResource}
             setEvolutionChainResource={setEvolutionChainResource}
           />

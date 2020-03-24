@@ -1,27 +1,15 @@
 import React from 'react'
-import { createResource } from '../../helpers/utils'
+import TypeItem from '../TypeItem'
 
-const PokemonColor = ({
-  pokemonResource,
-  pokemonSpeciesResource,
-  setPokemonSpeciesResource,
-}) => {
+const PokemonColor = ({ pokemonResource }) => {
   const pokemonData = pokemonResource.read()
-  if (!pokemonSpeciesResource) {
-    setPokemonSpeciesResource(
-      createResource(() => fetch(pokemonData.species.url))
-    )
-    return null
-  }
-  const pokemonSpeciesData = pokemonSpeciesResource.read()
   
   return (
     <div className="pokemon-color">
-      <h5>Color: </h5>
-      <div
-        className="pokemon-color-box"
-        style={{ backgroundColor: pokemonSpeciesData.color.name }}
-      />
+      <h5>Types:</h5>
+      <ul className="types-list">
+        {pokemonData.types && pokemonData.types.map(({ type }) => <TypeItem type={type} />)}
+      </ul>
     </div>
   )
 }
