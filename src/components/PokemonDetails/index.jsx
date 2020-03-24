@@ -21,15 +21,6 @@ const PokemonDetails = ({ pokemonData, pokemonColor, id }) => (
             return <li key={stat.stat.name}>{`${stat.stat.name}: ${stat.base_stat}`}</li>
           })}
       </ul>
-      <h5>Types:</h5>
-      <ul className="types-list"
-      >
-        {pokemonData &&
-          pokemonData.types &&
-          pokemonData.types.map(({type}) => {
-          return <li key={type.name}>{type.name}</li>
-          })}
-      </ul>
     </div>
   </>
 )

@@ -57,9 +57,9 @@ const PokemonPage = ({
   })
 
   const [evolutionChainUrl, setEvolutionChainUrl] = useState()
-  const [pokemonColor, setPokemonColor] = useState()
 
   useEffect(() => {
+    if (!evolutionChainUrl) { return }
     pokemonEvolutionDispatch({ type: FETCH_STATES.PENDING })
     fetch(evolutionChainUrl)
       .then(response => response.json())
@@ -79,7 +79,6 @@ const PokemonPage = ({
           .then(data => {
             pokemonSpeciesDispatch({ type: FETCH_STATES.SUCCESS })
             setEvolutionChainUrl(data.evolution_chain.url)
-            setPokemonColor(data.color.name)
           })
       })
   }, [id])
@@ -95,7 +94,7 @@ const PokemonPage = ({
       <PokemonDetails pokemonData={pokemonData.data} id={id} />
     }
     {pokemonSpecies.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
-      <PokemonColor color={pokemonColor} />
+      <PokemonColor types={pokemonData.data.types} />
     }
     {pokemonEvolutions.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
       <PokemonEvolutions pokemonChain={pokemonChain} />
