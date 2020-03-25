@@ -1,17 +1,30 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import {
+  createResource,
+  preloadImage,
+  getMainImageUrl,
+} from '../../helpers/utils'
 
-const Pokemon = ({ pokemonResource, name }) => {
+const createPokemonResource = id => ({
+  data: createResource(() => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)),
+  img: createResource(() => preloadImage(getMainImageUrl(id))),
+  id
+})
+
+const Pokemon = ({ pokemonResource, name, setSelectedPokemonResource }) => {
   const pokemonData = pokemonResource.read()
   return (
-    <Link to={`pokemon/${pokemonData.id}`}>
-      <div className="pokemon-wrapper">
-        {pokemonData.sprites && (
-          <img src={pokemonData.sprites.front_default} alt="" />
-        )}
-        <div className="name">{name}</div>
-      </div>
-    </Link>
+    <div
+      className="pokemon-wrapper"
+      onClick={() =>
+        setSelectedPokemonResource(() => createPokemonResource(pokemonData.id))
+      }
+    >
+      {pokemonData.sprites && (
+        <img src={pokemonData.sprites.front_default} alt="" />
+      )}
+      <div className="name">{name}</div>
+    </div>
   )
 }
 

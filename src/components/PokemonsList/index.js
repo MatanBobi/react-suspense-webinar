@@ -1,13 +1,15 @@
 import React, { Suspense, SuspenseList } from 'react'
 import Pokemon from '../Pokemon'
 import Spinner from '../Spinner'
-import { createResource } from '../../helpers/utils'
+import {
+  createResource
+} from '../../helpers/utils'
 
 const pokemonsResource = createResource(() =>
   fetch('https://pokeapi.co/api/v2/pokemon?limit=50')
 )
 
-const PokemonsList = () => {
+const PokemonsList = ({ setSelectedPokemonResource }) => {
   const pokemons = pokemonsResource.read()
 
   return (
@@ -20,6 +22,7 @@ const PokemonsList = () => {
                 pokemonResource={createResource(() =>
                   fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
                 )}
+                setSelectedPokemonResource={setSelectedPokemonResource}
                 name={pokemon.name}
                 id={pokemon.id}
                 key={pokemon.name}

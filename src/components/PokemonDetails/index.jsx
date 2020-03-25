@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PokemonDetails = ({ pokemonResource, pokemonColor, id }) => {
+const PokemonDetails = ({ pokemonResource, id }) => {
   const pokemonData = pokemonResource.data.read()
   return (
     <>
