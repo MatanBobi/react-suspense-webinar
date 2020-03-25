@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import PokemonDetails from '../PokemonDetails'
 import PokemonColor from '../PokemonColor'
 import PokemonEvolutions from '../PokemonEvolutions'
+import PokemonImage from '../PokemonImage'
 
 export const getPokemonChain = (acc, data) => {
   acc.push({
@@ -22,7 +23,6 @@ const PokemonPage = ({
   const [pokemonChainData, setPokemonChain] = useState({})
   const [pokemonData, setPokemonData] = useState({})
   const [evolutionChainUrl, setEvolutionChainUrl] = useState()
-  const [pokemonColor, setPokemonColor] = useState()
 
   useEffect(() => {
     fetch(evolutionChainUrl)
@@ -40,7 +40,6 @@ const PokemonPage = ({
           .then(response => response.json())
           .then(data => {
             setEvolutionChainUrl(data.evolution_chain.url)
-            setPokemonColor(data.color.name)
           })
       })
   }, [id])
@@ -52,6 +51,7 @@ const PokemonPage = ({
 
   return (
     <div className="pokemon-page">
+      <PokemonImage id={id} />
       <PokemonDetails pokemonData={pokemonData} id={id} />
       <PokemonColor types={pokemonData.types} />
       <PokemonEvolutions pokemonChain={pokemonChain} />
