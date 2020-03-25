@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useState } from 'react'
 import './App.css'
 import Spinner from './components/Spinner'
-import { createResource, preloadImage, getMainImageUrl } from './helpers/utils'
 
 const Home = lazy(() => import('./components/Home'))
 const PokemonPage = lazy(() => import('./components/PokemonPage'))
