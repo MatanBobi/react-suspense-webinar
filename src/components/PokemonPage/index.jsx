@@ -5,6 +5,7 @@ import PokemonDetails from '../PokemonDetails'
 import PokemonColor from '../PokemonColor'
 import PokemonEvolutions from '../PokemonEvolutions'
 import PokemonImage from '../PokemonImage'
+import BackButton from '../BackButton'
 
 export const getPokemonChain = (acc, data) => {
   acc.push({
@@ -37,9 +38,7 @@ const dataReducer = (state, action) => {
 }
 
 const PokemonPage = ({
-  match: {
-    params: { id },
-  },
+  selectedPokemon, setSelectedPokemon
 }) => {
   const [pokemonEvolutions, pokemonEvolutionDispatch] = useReducer(
     dataReducer,
@@ -70,7 +69,7 @@ const PokemonPage = ({
   }, [evolutionChainUrl])
   useEffect(() => {
     pokemonDataDispatch({ type: FETCH_STATES.PENDING })
-    fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+    fetch(`https://pokeapi.co/api/v2/pokemon/${selectedPokemon}`)
       .then(response => response.json())
       .then(data => {
         pokemonDataDispatch({ type: FETCH_STATES.SUCCESS, payload: data })
@@ -82,7 +81,7 @@ const PokemonPage = ({
             setEvolutionChainUrl(data.evolution_chain.url)
           })
       })
-  }, [id])
+  }, [selectedPokemon])
   const pokemonChain = useMemo(() => {
     if (pokemonEvolutions.data && pokemonEvolutions.data.chain) {
       return getPokemonChain([], pokemonEvolutions.data.chain.evolves_to[0])
@@ -91,9 +90,10 @@ const PokemonPage = ({
 
   return (
     <div className="pokemon-page">
-    <PokemonImage id={id} />
+    <BackButton setSelectedPokemon={setSelectedPokemon} />
+    <PokemonImage selectedPokemon={selectedPokemon} />
     {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
-      <PokemonDetails pokemonData={pokemonData.data} id={id} />
+      <PokemonDetails pokemonData={pokemonData.data} id={selectedPokemon} />
     }
     {pokemonSpecies.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
       <PokemonColor types={pokemonData.data.types} />

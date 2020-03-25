@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import Home from './components/Home'
 import PokemonPage from './components/PokemonPage'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 function App() {
+  const [selectedPokemon, setSelectedPokemon] = useState(null)
+
   return (
-    <Router>
-      <div className="App">
-        <Switch>
-          <Route path="/pokemon/:id" component={PokemonPage} />
-          <Route path="/" component={Home} />
-        </Switch>
-      </div>
-    </Router>
+    <div className="App">
+      {!selectedPokemon ? (
+        <Home setSelectedPokemon={setSelectedPokemon} />
+      ) : (
+        <PokemonPage
+          setSelectedPokemon={setSelectedPokemon}
+          selectedPokemon={selectedPokemon}
+        />
+      )}
+    </div>
   )
 }
 

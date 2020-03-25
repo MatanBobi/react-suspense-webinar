@@ -44,6 +44,7 @@ h1 {
 .pokemon-wrapper {
   display: flex;
   justify-content: center;
+  cursor: pointer;
 }
 
 .name {
@@ -69,6 +70,14 @@ h1 {
     'image details evolutions'
     'image color evolutions';
   color: #e6b89c;
+}
+
+.pokemon-page .back-button {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  border-radius: 0.25em;
+  padding: 0.5em 1em;
 }
 
 .pokemon-page h1 {
@@ -133,7 +142,7 @@ h1 {
   grid-area: evolutions;
 }
 
-.pokemon-page .pokemon-evolutions img{
+.pokemon-page .pokemon-evolutions img {
   height: 150px;
   margin: 8px 0;
 }

@@ -3,7 +3,7 @@ import Pokemon from '../Pokemon'
 import { FETCH_STATES } from '../../constants/constants'
 import Spinner from '../Spinner'
 
-const PokemonsList = ({ searchValue }) => {
+const PokemonsList = ({ setSelectedPokemon }) => {
   const [pokemons, setPokemons] = useState([])
   const [fetchState, setFetchState] = useState(FETCH_STATES.IDLE)
 
@@ -29,7 +29,7 @@ const PokemonsList = ({ searchValue }) => {
         <Pokemon
           name={pokemon.name}
           id={pokemon.id}
-          searchValue={searchValue}
+          setSelectedPokemon={setSelectedPokemon}
           key={pokemon.name}
         />
       ))}
