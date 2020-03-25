@@ -2,13 +2,14 @@ import React, { lazy, Suspense, useState } from 'react'
 import './App.css'
 import Spinner from './components/Spinner'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { createResource } from './helpers/utils'
+import { createResource, preloadImage, getMainImageUrl } from './helpers/utils'
 const Home = lazy(() => import('./components/Home'))
 const PokemonPage = lazy(() => import('./components/PokemonPage'))
 
 const createPokemonResource = id => ({
-  ...createResource(() => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)),
-  id,
+  data: createResource(() => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)),
+  img: createResource(() => preloadImage(getMainImageUrl(id))),
+  id
 })
 
 function App() {

@@ -15,7 +15,7 @@ export const sendAnalyticsPing = value => {
 export const createResource = fetchFunction => {
   let data
   const promise = fetchFunction()
-    .then(response => response.json())
+    .then(response => (response.json ? response.json() : response))
     .then(parsedResponse => (data = parsedResponse))
 
   return {
@@ -39,4 +39,8 @@ export const preloadImage = src => {
     img.src = src
     img.onload = () => resolve(src)
   })
+}
+
+export const getMainImageUrl = id => {
+  return `https://pokeres.bastionbot.org/images/pokemon/${id}.png`
 }

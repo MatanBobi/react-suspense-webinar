@@ -2,7 +2,7 @@ import React from 'react'
 import TypeItem from '../TypeItem'
 
 const PokemonColor = ({ pokemonResource }) => {
-  const pokemonData = pokemonResource.read()
+  const pokemonData = pokemonResource.data.read()
   
   return (
     <div className="pokemon-color">
