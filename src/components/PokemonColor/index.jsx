@@ -8,7 +8,7 @@ const PokemonColor = ({ pokemonResource }) => {
     <div className="pokemon-color">
       <h5>Types:</h5>
       <ul className="types-list">
-        {pokemonData.types && pokemonData.types.map(({ type }) => <TypeItem type={type} />)}
+        {pokemonData.types && pokemonData.types.map(({ type }) => <TypeItem key={type.name} type={type} />)}
       </ul>
     </div>
   )
