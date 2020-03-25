@@ -4,6 +4,7 @@ import Spinner from '../Spinner'
 import PokemonDetails from '../PokemonDetails'
 import PokemonColor from '../PokemonColor'
 import PokemonEvolutions from '../PokemonEvolutions'
+import PokemonImage from '../PokemonImage'
 
 export const getPokemonChain = (acc, data) => {
   acc.push({
@@ -90,6 +91,7 @@ const PokemonPage = ({
 
   return (
     <div className="pokemon-page">
+    <PokemonImage id={id} />
     {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
       <PokemonDetails pokemonData={pokemonData.data} id={id} />
     }

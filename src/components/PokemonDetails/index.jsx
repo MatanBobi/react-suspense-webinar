@@ -3,14 +3,6 @@ import React from 'react'
 const PokemonDetails = ({ pokemonData, pokemonColor, id }) => (
   <>
     <h1 className="pokemon-name">{pokemonData.name}</h1>
-    <div className="pokemon-image">
-      {pokemonData.sprites && (
-        <img
-          src={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`}
-          alt=""
-        />
-      )}
-    </div>
     <div className="pokemon-details">
       <h3>Details</h3>
       <h5>Stats:</h5>
