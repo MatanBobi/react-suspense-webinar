@@ -3,6 +3,7 @@ import PokemonDetails from '../PokemonDetails'
 import PokemonColor from '../PokemonColor'
 import PokemonEvolutions from '../PokemonEvolutions'
 import PokemonImage from '../PokemonImage'
+import BackButton from '../BackButton'
 
 export const getPokemonChain = (acc, data) => {
   acc.push({
@@ -15,11 +16,7 @@ export const getPokemonChain = (acc, data) => {
   }
 }
 
-const PokemonPage = ({
-  match: {
-    params: { id },
-  },
-}) => {
+const PokemonPage = ({ selectedPokemon, setSelectedPokemon }) => {
   const [pokemonChainData, setPokemonChain] = useState({})
   const [pokemonData, setPokemonData] = useState({})
   const [evolutionChainUrl, setEvolutionChainUrl] = useState()
@@ -32,7 +29,7 @@ const PokemonPage = ({
       })
   }, [evolutionChainUrl])
   useEffect(() => {
-    fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+    fetch(`https://pokeapi.co/api/v2/pokemon/${selectedPokemon}`)
       .then(response => response.json())
       .then(data => {
         setPokemonData(data)
@@ -42,7 +39,7 @@ const PokemonPage = ({
             setEvolutionChainUrl(data.evolution_chain.url)
           })
       })
-  }, [id])
+  }, [selectedPokemon])
   const pokemonChain = useMemo(() => {
     if (pokemonChainData && pokemonChainData.chain) {
       return getPokemonChain([], pokemonChainData.chain.evolves_to[0])
@@ -51,8 +48,12 @@ const PokemonPage = ({
 
   return (
     <div className="pokemon-page">
-      <PokemonImage id={id} />
-      <PokemonDetails pokemonData={pokemonData} id={id} />
+      <BackButton setSelectedPokemon={setSelectedPokemon} />
+      <PokemonImage selectedPokemon={selectedPokemon} />
+      <PokemonDetails
+        pokemonData={pokemonData}
+        selectedPokemon={selectedPokemon}
+      />
       <PokemonColor types={pokemonData.types} />
       <PokemonEvolutions pokemonChain={pokemonChain} />
     </div>

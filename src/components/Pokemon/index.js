@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 
-const Pokemon = ({ name }) => {
+const Pokemon = ({ name, setSelectedPokemon }) => {
   const [pokemonData, setPokemonData] = useState({})
 
   useEffect(() => {
@@ -13,14 +12,12 @@ const Pokemon = ({ name }) => {
   }, [name])
 
   return (
-    <Link to={`pokemon/${pokemonData.id}`}>
-      <div className="pokemon-wrapper">
-        {pokemonData.sprites && (
-          <img src={pokemonData.sprites.front_default} alt="" />
-        )}
-        <div className="name">{name}</div>
-      </div>
-    </Link>
+    <div className="pokemon-wrapper" onClick={() => setSelectedPokemon(pokemonData.id)}>
+      {pokemonData.sprites && (
+        <img src={pokemonData.sprites.front_default} alt="" />
+      )}
+      <div className="name">{name}</div>
+    </div>
   )
 }
 

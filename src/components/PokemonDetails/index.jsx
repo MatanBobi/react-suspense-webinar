@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PokemonDetails = ({ pokemonData, pokemonColor, id }) => (
+const PokemonDetails = ({ pokemonData }) => (
   <>
     <h1 className="pokemon-name">{pokemonData.name}</h1>
     <div className="pokemon-details">

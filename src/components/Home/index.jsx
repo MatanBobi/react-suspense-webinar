@@ -1,14 +1,14 @@
 import React from 'react'
 import PokemonsList from '../PokemonsList'
-import Description from '../Description'
+import Footer from '../Footer'
 import Header from '../Header'
 
-const Home = () => {
+const Home = ({ setSelectedPokemon }) => {
   return (
     <>
       <Header>Pokémons</Header>
-      <PokemonsList />
-      <Description />
+      <PokemonsList setSelectedPokemon={setSelectedPokemon} />
+      <Footer />
     </>
   )
 }
