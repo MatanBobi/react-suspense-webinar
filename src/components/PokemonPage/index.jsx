@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useReducer } from 'react'
+import React, { useEffect, useMemo, useReducer } from 'react'
 import { FETCH_STATES } from '../../constants/constants'
 import Spinner from '../Spinner'
 import PokemonDetails from '../PokemonDetails'
