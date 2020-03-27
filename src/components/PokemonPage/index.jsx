@@ -1,26 +1,21 @@
-import React, { useState, lazy, Suspense, SuspenseList } from 'react'
+import React, { Suspense, SuspenseList } from 'react'
 import Spinner from '../Spinner'
 
 import BackButton from '../BackButton'
-const PokemonDetails = lazy(() => import('../PokemonDetails'))
-const PokemonColor = lazy(() => import('../PokemonColor'))
-const PokemonEvolutions = lazy(() => import('../PokemonEvolutions'))
-const PokemonImage = lazy(() => import('../PokemonImage'))
+import PokemonDetails from '../PokemonDetails'
+import PokemonColor from '../PokemonColor'
+import PokemonEvolutions from '../PokemonEvolutions'
+import PokemonImage from '../PokemonImage'
+import { createResource } from '../../helpers/utils'
 
 const PokemonPage = ({
-  selectedPokemon,
-  setSelectedPokemon,
   selectedPokemonResource,
   setSelectedPokemonResource,
 }) => {
-  const [evolutionChainResource, setEvolutionChainResource] = useState(null)
-  if (!selectedPokemonResource.data) {
-    return null
-  }
   return (
     <div className="pokemon-page">
       <BackButton setSelectedPokemonResource={setSelectedPokemonResource} />
-      <SuspenseList revealOrder="forwards" tail="collapsed">
+      <SuspenseList revealOrder="together">
         <Suspense fallback={<Spinner />}>
           <PokemonImage pokemonResource={selectedPokemonResource} />
         </Suspense>
@@ -36,8 +31,13 @@ const PokemonPage = ({
         <Suspense fallback={<Spinner />}>
           <PokemonEvolutions
             pokemonResource={selectedPokemonResource}
-            evolutionChainResource={evolutionChainResource}
-            setEvolutionChainResource={setEvolutionChainResource}
+            evolutionChainResource={createResource(() =>
+              fetch(selectedPokemonResource.data.read().species.url)
+                .then(data => data.json())
+                .then(pokemonSpeciesData =>
+                  fetch(pokemonSpeciesData.evolution_chain.url)
+                )
+            )}
           />
         </Suspense>
       </SuspenseList>
