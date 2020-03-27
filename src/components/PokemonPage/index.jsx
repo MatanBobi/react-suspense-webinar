@@ -19,15 +19,7 @@ export const getPokemonChain = (acc, data) => {
 const PokemonPage = ({ selectedPokemon, setSelectedPokemon }) => {
   const [pokemonChainData, setPokemonChain] = useState({})
   const [pokemonData, setPokemonData] = useState({})
-  const [evolutionChainUrl, setEvolutionChainUrl] = useState()
 
-  useEffect(() => {
-    fetch(evolutionChainUrl)
-      .then(response => response.json())
-      .then(data => {
-        setPokemonChain(data, [])
-      })
-  }, [evolutionChainUrl])
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${selectedPokemon}`)
       .then(response => response.json())
@@ -36,10 +28,15 @@ const PokemonPage = ({ selectedPokemon, setSelectedPokemon }) => {
         fetch(data.species.url)
           .then(response => response.json())
           .then(data => {
-            setEvolutionChainUrl(data.evolution_chain.url)
+            fetch(data.evolution_chain.url)
+              .then(response => response.json())
+              .then(data => {
+                setPokemonChain(data)
+              })
           })
       })
   }, [selectedPokemon])
+  
   const pokemonChain = useMemo(() => {
     if (pokemonChainData && pokemonChainData.chain) {
       return getPokemonChain([], pokemonChainData.chain.evolves_to[0])
