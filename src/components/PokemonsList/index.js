@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import Pokemon from '../Pokemon'
+import Spinner from '../Spinner'
 
 const PokemonsList = ({ setSelectedPokemon }) => {
   const [pokemons, setPokemons] = useState([])
