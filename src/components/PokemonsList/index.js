@@ -9,7 +9,7 @@ const PokemonsList = ({ setSelectedPokemon }) => {
 
   const getPokemons = useCallback(() => {
     setFetchState(FETCH_STATES.PENDING)
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=200')
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=50')
       .then(response => response.json())
       .then(data => {
         setFetchState(FETCH_STATES.SUCCESS)

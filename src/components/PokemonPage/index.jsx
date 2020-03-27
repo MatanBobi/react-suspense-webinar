@@ -37,9 +37,7 @@ const dataReducer = (state, action) => {
   }
 }
 
-const PokemonPage = ({
-  selectedPokemon, setSelectedPokemon
-}) => {
+const PokemonPage = ({ selectedPokemon, setSelectedPokemon }) => {
   const [pokemonEvolutions, pokemonEvolutionDispatch] = useReducer(
     dataReducer,
     {
@@ -51,37 +49,29 @@ const PokemonPage = ({
     data: {},
     fetchState: FETCH_STATES.IDLE,
   })
-  const [pokemonSpecies, pokemonSpeciesDispatch] = useReducer(dataReducer, {
-    data: {},
-    fetchState: FETCH_STATES.IDLE,
-  })
 
-  const [evolutionChainUrl, setEvolutionChainUrl] = useState()
-
-  useEffect(() => {
-    if (!evolutionChainUrl) { return }
-    pokemonEvolutionDispatch({ type: FETCH_STATES.PENDING })
-    fetch(evolutionChainUrl)
-      .then(response => response.json())
-      .then(data => {
-        pokemonEvolutionDispatch({ type: FETCH_STATES.SUCCESS, payload: data })
-      })
-  }, [evolutionChainUrl])
   useEffect(() => {
     pokemonDataDispatch({ type: FETCH_STATES.PENDING })
     fetch(`https://pokeapi.co/api/v2/pokemon/${selectedPokemon}`)
       .then(response => response.json())
       .then(data => {
         pokemonDataDispatch({ type: FETCH_STATES.SUCCESS, payload: data })
-        pokemonSpeciesDispatch({ type: FETCH_STATES.PENDING })
         fetch(data.species.url)
           .then(response => response.json())
           .then(data => {
-            pokemonSpeciesDispatch({ type: FETCH_STATES.SUCCESS })
-            setEvolutionChainUrl(data.evolution_chain.url)
+            pokemonEvolutionDispatch({ type: FETCH_STATES.PENDING })
+            fetch(data.evolution_chain.url)
+              .then(response => response.json())
+              .then(data => {
+                pokemonEvolutionDispatch({
+                  type: FETCH_STATES.SUCCESS,
+                  payload: data,
+                })
+              })
           })
       })
   }, [selectedPokemon])
+  
   const pokemonChain = useMemo(() => {
     if (pokemonEvolutions.data && pokemonEvolutions.data.chain) {
       return getPokemonChain([], pokemonEvolutions.data.chain.evolves_to[0])
@@ -90,17 +80,23 @@ const PokemonPage = ({
 
   return (
     <div className="pokemon-page">
-    <BackButton setSelectedPokemon={setSelectedPokemon} />
-    <PokemonImage selectedPokemon={selectedPokemon} />
-    {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
-      <PokemonDetails pokemonData={pokemonData.data} id={selectedPokemon} />
-    }
-    {pokemonSpecies.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
-      <PokemonColor types={pokemonData.data.types} />
-    }
-    {pokemonEvolutions.fetchState !== FETCH_STATES.SUCCESS ? <Spinner/>:
-      <PokemonEvolutions pokemonChain={pokemonChain} />
-    }
+      <BackButton setSelectedPokemon={setSelectedPokemon} />
+      <PokemonImage selectedPokemon={selectedPokemon} />
+      {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? (
+        <Spinner />
+      ) : (
+        <PokemonDetails pokemonData={pokemonData.data} id={selectedPokemon} />
+      )}
+      {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? (
+        <Spinner />
+      ) : (
+        <PokemonColor types={pokemonData.data.types} />
+      )}
+      {pokemonEvolutions.fetchState !== FETCH_STATES.SUCCESS ? (
+        <Spinner />
+      ) : (
+        <PokemonEvolutions pokemonChain={pokemonChain} />
+      )}
     </div>
   )
 }
