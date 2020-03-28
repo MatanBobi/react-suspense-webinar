@@ -7,8 +7,7 @@ import {
 
 const createPokemonResource = id => ({
   data: createResource(() => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)),
-  img: createResource(() => preloadImage(getMainImageUrl(id))),
-  id
+  img: createResource(() => preloadImage(getMainImageUrl(id)))
 })
 
 const Pokemon = ({ pokemonResource, name, setSelectedPokemonResource }) => {
@@ -17,7 +16,7 @@ const Pokemon = ({ pokemonResource, name, setSelectedPokemonResource }) => {
     <div
       className="pokemon-wrapper"
       onClick={() =>
-        setSelectedPokemonResource(() => createPokemonResource(pokemonData.id))
+        setSelectedPokemonResource(createPokemonResource(pokemonData.id))
       }
     >
       {pokemonData.sprites && (
