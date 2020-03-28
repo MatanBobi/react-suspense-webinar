@@ -47,6 +47,12 @@ h1 {
   cursor: pointer;
 }
 
+.pending-spinner{
+  position: fixed;
+  top: 30px;
+  left: 30px;
+}
+
 .name {
   font-size: 30px;
   padding: 20px 0;

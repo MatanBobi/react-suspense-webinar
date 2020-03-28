@@ -27,7 +27,7 @@ export const createResource = fetchFunction => {
     })
   }
   
-  export const getMainImageUrl = id => {
-    return `https://pokeres.bastionbot.org/images/pokemon/${id}.png`
+  export const getMainImageUrl = name => {
+    return `https://img.pokemondb.net/artwork/vector/${name}.png`
   }
   

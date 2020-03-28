@@ -17,10 +17,9 @@ const PokemonEvolutions = ({
   evolutionChainResource,
   setEvolutionChainResource,
 }) => {
-  let evolutionChainData = {}
   let pokemonChain
   
-  evolutionChainData = evolutionChainResource.read()
+  const evolutionChainData = pokemonResource.evolutionData.read()
   if (evolutionChainData && evolutionChainData.chain) {
     pokemonChain = getPokemonChain([], evolutionChainData.chain.evolves_to[0])
   }

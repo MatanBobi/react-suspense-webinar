@@ -1,4 +1,4 @@
-import React, { Suspense, SuspenseList } from 'react'
+import React, { Suspense, useMemo } from 'react'
 import Spinner from '../Spinner'
 
 import BackButton from '../BackButton'
@@ -15,32 +15,23 @@ const PokemonPage = ({
   return (
     <div className="pokemon-page">
       <BackButton setSelectedPokemonResource={setSelectedPokemonResource} />
-      <SuspenseList revealOrder="together">
-        <Suspense fallback={<Spinner />}>
-          <PokemonImage pokemonResource={selectedPokemonResource} />
-        </Suspense>
-        <Suspense fallback={<Spinner />}>
-          <PokemonDetails
-            pokemonResource={selectedPokemonResource}
-            id={selectedPokemonResource.data.id}
-          />
-        </Suspense>
-        <Suspense fallback={<Spinner />}>
-          <PokemonColor pokemonResource={selectedPokemonResource} />
-        </Suspense>
-        <Suspense fallback={<Spinner />}>
-          <PokemonEvolutions
-            pokemonResource={selectedPokemonResource}
-            evolutionChainResource={createResource(() =>
-              fetch(selectedPokemonResource.data.read().species.url)
-                .then(data => data.json())
-                .then(pokemonSpeciesData =>
-                  fetch(pokemonSpeciesData.evolution_chain.url)
-                )
-            )}
-          />
-        </Suspense>
-      </SuspenseList>
+      <Suspense fallback={<Spinner />}>
+        <PokemonImage pokemonResource={selectedPokemonResource} />
+      </Suspense>
+      <Suspense fallback={<Spinner />}>
+        <PokemonDetails
+          pokemonResource={selectedPokemonResource}
+          id={selectedPokemonResource.data.id}
+        />
+      </Suspense>
+      <Suspense fallback={<Spinner />}>
+        <PokemonColor pokemonResource={selectedPokemonResource} />
+      </Suspense>
+      <Suspense fallback={<Spinner />}>
+        <PokemonEvolutions
+          pokemonResource={selectedPokemonResource}
+        />
+      </Suspense>
     </div>
   )
 }

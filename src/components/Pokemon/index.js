@@ -5,9 +5,21 @@ import {
   getMainImageUrl,
 } from '../../helpers/utils'
 
-const createPokemonResource = id => ({
+const createPokemonResource = (id, name) => ({
   data: createResource(() => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)),
-  img: createResource(() => preloadImage(getMainImageUrl(id)))
+  evolutionData: createResource(() =>
+    fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+      .then(resp => resp.json())
+      .then(data =>
+        fetch(data.species.url)
+          .then(data => data.json())
+          .then(pokemonSpeciesData => {
+            debugger
+            return fetch(pokemonSpeciesData.evolution_chain.url)
+          })
+      )
+  ),
+  img: createResource(() => preloadImage(getMainImageUrl(name))),
 })
 
 const Pokemon = ({ pokemonResource, name, setSelectedPokemonResource }) => {
@@ -16,7 +28,7 @@ const Pokemon = ({ pokemonResource, name, setSelectedPokemonResource }) => {
     <div
       className="pokemon-wrapper"
       onClick={() =>
-        setSelectedPokemonResource(createPokemonResource(pokemonData.id))
+        setSelectedPokemonResource(createPokemonResource(pokemonData.id, name))
       }
     >
       {pokemonData.sprites && (
