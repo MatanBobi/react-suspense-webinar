@@ -6,12 +6,13 @@ import PokemonDetails from '../PokemonDetails'
 import PokemonColor from '../PokemonColor'
 import PokemonEvolutions from '../PokemonEvolutions'
 import PokemonImage from '../PokemonImage'
-import { createResource } from '../../helpers/utils'
 
 const PokemonPage = ({
   selectedPokemonResource,
   setSelectedPokemonResource,
 }) => {
+  // Fake fetching the data so React will think I need it for the first loading
+  selectedPokemonResource.evolutionData.read()
   return (
     <div className="pokemon-page">
       <BackButton setSelectedPokemonResource={setSelectedPokemonResource} />

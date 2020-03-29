@@ -13,10 +13,9 @@ const createPokemonResource = (id, name) => ({
       .then(data =>
         fetch(data.species.url)
           .then(data => data.json())
-          .then(pokemonSpeciesData => {
-            debugger
-            return fetch(pokemonSpeciesData.evolution_chain.url)
-          })
+          .then(pokemonSpeciesData =>
+            fetch(pokemonSpeciesData.evolution_chain.url)
+          )
       )
   ),
   img: createResource(() => preloadImage(getMainImageUrl(name))),
