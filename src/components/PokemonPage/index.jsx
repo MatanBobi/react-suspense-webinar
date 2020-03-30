@@ -81,7 +81,11 @@ const PokemonPage = ({ selectedPokemon, setSelectedPokemon }) => {
   return (
     <div className="pokemon-page">
       <BackButton setSelectedPokemon={setSelectedPokemon} />
-      <PokemonImage selectedPokemon={selectedPokemon} />
+      {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? (
+        <Spinner />
+      ) : 
+      <PokemonImage pokemonData={pokemonData.data} />
+      }
       {pokemonData.fetchState !== FETCH_STATES.SUCCESS ? (
         <Spinner />
       ) : (
