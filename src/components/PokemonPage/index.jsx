@@ -12,7 +12,7 @@ const PokemonPage = ({
   setSelectedPokemonResource,
 }) => {
   // Fake fetching the data so React will think I need it for the first loading
-  selectedPokemonResource.evolutionData.read()
+  // selectedPokemonResource.evolutionData.read()
   return (
     <div className="pokemon-page">
       <BackButton setSelectedPokemonResource={setSelectedPokemonResource} />
