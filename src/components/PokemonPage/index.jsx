@@ -46,7 +46,7 @@ const PokemonPage = ({ selectedPokemon, setSelectedPokemon }) => {
   return (
     <div className="pokemon-page">
       <BackButton setSelectedPokemon={setSelectedPokemon} />
-      <PokemonImage selectedPokemon={selectedPokemon} />
+      <PokemonImage pokemonData={pokemonData} />
       <PokemonDetails
         pokemonData={pokemonData}
         selectedPokemon={selectedPokemon}

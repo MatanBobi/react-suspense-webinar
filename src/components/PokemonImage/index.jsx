@@ -1,9 +1,10 @@
 import React from 'react'
+import {getMainImageUrl} from '../../helpers/utils'
 
-const PokemonImage = ({ selectedPokemon }) => {
+const PokemonImage = ({ pokemonData }) => {
   return <div className="pokemon-image">
     <img
-      src={`https://pokeres.bastionbot.org/images/pokemon/${selectedPokemon}.png`}
+      src={getMainImageUrl(pokemonData.name)}
       alt=""
     />
   </div>
