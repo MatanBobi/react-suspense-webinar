@@ -30,4 +30,11 @@ export const createResource = fetchFunction => {
   export const getMainImageUrl = name => {
     return `https://img.pokemondb.net/artwork/vector/${name}.png`
   }
+
+  export const FETCH_STATUS = {
+    IDLE: 'IDLE',
+    PENDING: 'PENDING',
+    SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR'
+  }
   
